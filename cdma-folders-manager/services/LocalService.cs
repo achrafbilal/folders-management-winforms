@@ -19,8 +19,10 @@ namespace cdma_folders_manager.services
 
         Regex termRegex = new Regex(@"^([A-Za-z]\s){0,100}$");
 
-        public List<DBFolder> Folders = new List<DBFolder>();
+        public List<FolderDisplay> Folders = new List<FolderDisplay>();
 
+        public bool localDataLoaded = false;
+        public bool dataLoaded = false;
         public string SearchPath { get; set; }
 
         public string dataPath { get; set; }
@@ -39,6 +41,7 @@ namespace cdma_folders_manager.services
         {
             return pathRegex.IsMatch(path);
         }
+
         
         public bool isValidSearchTerm(string term)
         {
@@ -50,9 +53,8 @@ namespace cdma_folders_manager.services
             if( instance == null )
             {
                 instance = new LocalService();
-
-                instance.getData();
-                
+                instance.dataPath = "";
+                instance.SearchPath = "";
             }
             return instance;          
         }
@@ -64,29 +66,57 @@ namespace cdma_folders_manager.services
         
         public string[] getImages()
         {
-            string[] images = System.IO.Directory.GetFiles(resolvePath(folderID), "*", System.IO.SearchOption.TopDirectoryOnly);
+            string[] images = Directory.GetFiles(resolvePath(folderID), "*.*",SearchOption.TopDirectoryOnly);
 
             return images;
         }
 
-        public void getData(string path= @"C:\Users\Ach20\source\repos\cdma-folders-manager\cdma-folders-manager\sample.json")
+        public void getData()
         {
-            string text=File.ReadAllText(path);
-            string dataTxt = text.Replace('\n', ' ').Replace("\\"," ").Replace("'ref'","'reference'").Substring(text.IndexOf("{\"id_dossier")-3);
-            List<DBFolder> result=  JsonConvert.DeserializeObject<List<DBFolder>>(dataTxt.Substring(0, dataTxt.Length - 4));
-            File.WriteAllText("data.json", dataTxt.Substring(0, dataTxt.Length - 4));
-            this.Folders = result;
-            
-
+            if (dataPath.Length > 0)
+            {
+                string text = File.ReadAllText(dataPath);
+                string formattedText = text.Replace("\\", "").Replace("\"ref\"", "\"reference\"").Replace("\n", "").Replace(" ", "");
+                int index = formattedText.IndexOf("\"data\"") + "\"data\":".Length;
+                string dataTxt = formattedText.Substring(index);
+                dataTxt = dataTxt.Substring(0, dataTxt.Length - 2);
+                //System.Windows.Forms.MessageBox.Show(dataTxt);
+                List<FolderDisplay> result = new List<FolderDisplay>();
+                JsonConvert.DeserializeObject<List<DBFolder>>(dataTxt).ForEach(e =>
+                    result.Add(new FolderDisplay(e))
+                );
+                File.WriteAllText("data.json", text);
+                this.Folders = result;
+                dataLoaded = true;
+            }
+            //else throw new Exception("Chemin de fichier de données invalide");
         }
 
-        public void getDataLocal()
+        public void readLocalData()
         {
-            if(File.Exists(this.dataPath))
+            if (!File.Exists("data/data.data"))
             {
-                this.Folders = JsonConvert.DeserializeObject<List<DBFolder>>(File.ReadAllText(this.dataPath));
+                if (!Directory.Exists("data/"))
+                    Directory.CreateDirectory("data/");
+                   
+                StreamWriter writer = File.CreateText("data/data.data");
+                writer.WriteLine("#CDMA Folders Management");
+                writer.Close();
+                return;
+            }
+           
+            string[] metaData=File.ReadAllLines("data/data.data");
+
+            if (metaData[0].Equals("#CDMA Folders Management") && metaData.Length==3)
+            {
+                SearchPath=metaData[1];    
+                dataPath=metaData[2];
+                localDataLoaded = true;
             }
         }
+
+
+
 
     }
 }

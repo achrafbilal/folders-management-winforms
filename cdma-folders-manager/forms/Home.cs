@@ -21,7 +21,7 @@ namespace cdma_folders_manager
             { 2, new FolderContentScreen() },
             { 3, new FullscreenImageScreen() }
         };
-        private List<Bunifu.Framework.UI.BunifuFlatButton> nav_buttons;
+        //private List<Bunifu.Framework.UI.BunifuFlatButton> nav_buttons;
         private int activeScreen = 0;
         public Home()
         {
@@ -42,6 +42,8 @@ namespace cdma_folders_manager
                 pnlScreens.Controls.Clear();
                 pnlScreens.Controls.Add(control);
                 activeScreen = index;
+                screens[index].Anchor = AnchorStyles.None;
+                screens[index].Dock = DockStyle.Fill;
                 ((CustomUserControl)screens[index]).refresh();
 
             }
@@ -63,25 +65,25 @@ namespace cdma_folders_manager
         {
 
             pnlContainer.Width = this.Width;
-            pnlContainer.Height = this.Height;
-            pnlSidebar.Height = ((Home)this).Height;
-            pnlScreens.Height = ((Home)this).Height;
+            pnlContainer.Height = this.Height-40;
+            pnlSidebar.Height = pnlContainer.Height;
+            pnlScreens.Height = pnlContainer.Height - 40;
 
             //pnlSidebar.Width = 300;
             pnlScreens.Width = ((Home)this).Width - (pnlSidebar.Width );
 
             
-            nav_buttons = new List<Bunifu.Framework.UI.BunifuFlatButton> { btn_nav_home,btn_nav_new_folder};
-            roundButton(ref btnBack);
+            //nav_buttons = new List<Bunifu.Framework.UI.BunifuFlatButton> { btn_nav_home,btn_nav_new_folder};
+            //roundButton(ref btnBack);
             btn_nav_new_folder.Visible = false;
             setScreen(0);
         }
-        private void roundButton(ref Bunifu.Framework.UI.BunifuFlatButton btn)
-        {
-            GraphicsPath p = new GraphicsPath();
-            p.AddEllipse(1, 1, btn.Width , btn.Height );
-            btn.Region = new Region(p);
-        }
+        //private void roundButton(ref Bunifu.Framework.UI.BunifuFlatButton btn)
+        //{
+        //    GraphicsPath p = new GraphicsPath();
+        //    p.AddEllipse(1, 1, btn.Width , btn.Height );
+        //    btn.Region = new Region(p);
+        //}
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {

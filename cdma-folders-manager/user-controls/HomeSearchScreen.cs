@@ -17,6 +17,7 @@ namespace cdma_folders_manager.user_controls
 
         LocalService service = LocalService.getInstance();
         Home parentForm = null;
+        string searchField = "reference";
         public HomeSearchScreen()
         {
             InitializeComponent();
@@ -39,7 +40,7 @@ namespace cdma_folders_manager.user_controls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            service.SearchPath = @"C:\Users\Ach20\Downloads\cdma";
+            //service.SearchPath = @"C:\Users\CDMA_PC2\Downloads\cdma";
             parentForm.setScreen(1);
         }
 
@@ -60,8 +61,13 @@ namespace cdma_folders_manager.user_controls
 
         private void txtSearchTerm_TextChanged(object sender, EventArgs e)
         {
-            if (service.isValidSearchTerm(txtSearchTerm.Text.ToString())) 
-                service.SearchTerm=(txtSearchTerm.Text.ToString());
+            //if (service.isValidSearchTerm(txtSearchTerm.Text.ToString())) 
+            //    service.SearchTerm=(txtSearchTerm.Text.ToString());
+        }
+        private void txtSearchTerm_OnTextChange(object sender, EventArgs e)
+        {
+            //if (service.isValidSearchTerm(txtSearchTerm.Text.ToString()))
+            //    service.SearchTerm = (txtSearchTerm.Text.ToString());
         }
 
         private void btnPathDialogOpen_Click(object sender, EventArgs e)
@@ -72,28 +78,31 @@ namespace cdma_folders_manager.user_controls
             }
         }
 
-        public  void refresh()
-        {
-            txtSearchTerm.Text = "";
-            rdbMatricule.Checked = rdbReference.Checked= rdbReferenceLocale.Checked= rdbSisnitre.Checked = false;
-            pathChooser.SelectedPath = "";
-        }
-
-        
-
-        private void txtSearchTerm_OnTextChange(object sender, EventArgs e)
-        {
-            if (service.isValidSearchTerm(txtSearchTerm.Text.ToString()))
-                service.SearchTerm = (txtSearchTerm.Text.ToString());
-            btnSearch.ButtonText = txtSearchTerm.text.ToString();
-        }
-
         private void btnDataDialogOpen_Click(object sender, EventArgs e)
         {
             if (dataChooser.ShowDialog() == DialogResult.OK)
             {
-                service.dataPath = (dataChooser.SelectedPath);
+                service.dataPath = (dataChooser.FileName);
+                service.getData();
             }
+        }  
+        
+        public  void refresh()
+        {
+            int margintop = 30;
+            //txtSearchTerm.Text = "";
+            rdbMatricule.Checked =  rdbReferenceLocale.Checked= rdbSisnitre.Checked = false;
+            rdbReference.Checked = true;
+            pathChooser.SelectedPath = "";
+            pnlView.Height = this.Height;
+
+            pnlView.Location = new Point(this.Size.Width / 2 - pnlView.Width / 2, this.Size.Height / 2 - pnlView.Height / 2);
+            logoContainer.Location = new Point(pnlView.Width / 2 - logoContainer.Width / 2,     (pnlView.Height / 3) - (logoContainer.Height / 2)+margintop);
+            pnlRdb.Location = new Point(pnlView.Width / 2 - pnlRdb.Width / 2,                   logoContainer.Location.Y+ logoContainer.Height+20 + margintop);
+            //txtSearchTerm.Location = new Point(pnlView.Width / 2 - txtSearchTerm.Width / 2,     pnlRdb.Location.Y + pnlRdb.Height + 20 + margintop);
+            //btnSearch.Location= new Point(pnlView.Width / 2 - btnSearch.Width / 2, txtSearchTerm.Location.Y + txtSearchTerm.Height + 20 + margintop);
+            btnPathDialogOpen.Location = new Point(pnlView.Width - pnlView.Width / 5, pnlView.Height / 8);
+            btnDataDialogOpen.Location = new Point(btnPathDialogOpen.Width+btnPathDialogOpen.Location.X, pnlView.Height / 8);
         }
     }
 }

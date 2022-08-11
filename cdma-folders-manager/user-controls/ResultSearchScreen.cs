@@ -34,7 +34,7 @@ namespace cdma_folders_manager.user_controls
             if (dgv.SelectedRows.Count > 0)
             {
 
-                service.folderID=service.Folders[dgv.SelectedRows[0].Index].ID;
+                service.folderID=service.Folders[dgv.SelectedRows[0].Index].getID();
                 parent.setScreen(2);
             }
         }
@@ -43,14 +43,12 @@ namespace cdma_folders_manager.user_controls
 
         public void refresh()
         {
-
-
+            
             binding.DataSource = service.Folders;
 
             dgvFolders.DataSource = binding;
 
             dgvFolders.Refresh();
-
         }
 
         private void dgvFolders_CellContentClick(object sender, DataGridViewCellEventArgs e)

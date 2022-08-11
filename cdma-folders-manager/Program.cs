@@ -1,4 +1,6 @@
-﻿using System;
+﻿using cdma_folders_manager.forms;
+using cdma_folders_manager.services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +10,7 @@ namespace cdma_folders_manager
 {
     internal static class Program
     {
+        public static LocalService service = LocalService.getInstance();
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,7 +19,9 @@ namespace cdma_folders_manager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Home());
+            service.readLocalData();
+            
+            Application.Run(Layout.getInstance());
         }
     }
 }

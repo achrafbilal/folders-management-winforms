@@ -8,7 +8,7 @@ namespace cdma_folders_manager.models
 {
     internal class DBFolder
     {
-        public int ID { get; set; }
+        public int id_dossier { get; set; }
         public int num_police { get; set; }    
         public string reference { get; set; }
         public string ref_local { get; set; }

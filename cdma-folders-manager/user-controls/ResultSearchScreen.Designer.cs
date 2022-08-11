@@ -42,15 +42,16 @@
             this.dgvFolders.AllowUserToDeleteRows = false;
             this.dgvFolders.AllowUserToResizeColumns = false;
             this.dgvFolders.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
             this.dgvFolders.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvFolders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvFolders.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvFolders.BackgroundColor = System.Drawing.Color.White;
             this.dgvFolders.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvFolders.CausesValidation = false;
+            this.dgvFolders.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dgvFolders.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-            this.dgvFolders.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dgvFolders.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(95)))), ((int)(((byte)(30)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -72,10 +73,12 @@
             this.dgvFolders.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvFolders.DoubleBuffered = true;
             this.dgvFolders.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvFolders.EnableHeadersVisualStyles = false;
             this.dgvFolders.GridColor = System.Drawing.Color.White;
             this.dgvFolders.HeaderBgColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(95)))), ((int)(((byte)(30)))));
             this.dgvFolders.HeaderForeColor = System.Drawing.Color.White;
             this.dgvFolders.Location = new System.Drawing.Point(0, 0);
+            this.dgvFolders.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgvFolders.MultiSelect = false;
             this.dgvFolders.Name = "dgvFolders";
             this.dgvFolders.ReadOnly = true;
@@ -99,18 +102,19 @@
             this.dgvFolders.ShowCellToolTips = false;
             this.dgvFolders.ShowEditingIcon = false;
             this.dgvFolders.ShowRowErrors = false;
-            this.dgvFolders.Size = new System.Drawing.Size(1120, 743);
+            this.dgvFolders.Size = new System.Drawing.Size(747, 483);
             this.dgvFolders.TabIndex = 2;
             this.dgvFolders.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFolders_CellContentClick);
             this.dgvFolders.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvFolders_CellMouseClick);
             // 
             // ResultSearchScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dgvFolders);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ResultSearchScreen";
-            this.Size = new System.Drawing.Size(1120, 743);
+            this.Size = new System.Drawing.Size(747, 483);
             this.Load += new System.EventHandler(this.ResultSearchScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFolders)).EndInit();
             this.ResumeLayout(false);
