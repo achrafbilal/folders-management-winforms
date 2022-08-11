@@ -19,7 +19,7 @@ namespace cdma_folders_manager.services
 
         Regex termRegex = new Regex(@"^([A-Za-z]\s){0,100}$");
 
-        public List<Folder> Folders = new List<Folder>();
+        public List<DBFolder> Folders = new List<DBFolder>();
 
         public string SearchPath { get; set; }
 
@@ -33,7 +33,7 @@ namespace cdma_folders_manager.services
 
         public string fullScreenImage { get; set; }
 
-
+        public bool isLoading { get; set; }
 
         public bool isValidSearchPath(string path)
         {
@@ -51,20 +51,7 @@ namespace cdma_folders_manager.services
             {
                 instance = new LocalService();
 
-                for (int i = 1; i <= 7; i++)
-                {
-                    instance.Folders.Add(
-                        new Folder()
-                        {
-                            ID = i,
-                            Name = $"DOSS_{i}",
-                            Reference = $"Rérérence {i}",
-                            ReferenceLocale = $"Reférence Locale {i}",
-                            Sinistre = $"Sinistre {i}",
-                            Matricule = $"Matricule {i}"
-                        }
-                    );
-                }
+                instance.getData();
                 
             }
             return instance;          
@@ -82,15 +69,23 @@ namespace cdma_folders_manager.services
             return images;
         }
 
-        public void getData()
+        public void getData(string path= @"C:\Users\Ach20\source\repos\cdma-folders-manager\cdma-folders-manager\sample.json")
         {
-            string text=File.ReadAllText(@"C:\Users\Ach20\source\repos\cdma-folders-manager\cdma-folders-manager\sample.json");
-            //System.Windows.Forms.MessageBox.Show(text.IndexOf("{\"id_dossier") + "");
-            string dataTxt = text.Replace('\n', ' ').Replace("\"","'").Substring(text.IndexOf("{\"id_dossier"));
+            string text=File.ReadAllText(path);
+            string dataTxt = text.Replace('\n', ' ').Replace("\\"," ").Replace("'ref'","'reference'").Substring(text.IndexOf("{\"id_dossier")-3);
             List<DBFolder> result=  JsonConvert.DeserializeObject<List<DBFolder>>(dataTxt.Substring(0, dataTxt.Length - 4));
+            File.WriteAllText("data.json", dataTxt.Substring(0, dataTxt.Length - 4));
+            this.Folders = result;
             
-            System.Windows.Forms.MessageBox.Show(result.Count+" ");
 
+        }
+
+        public void getDataLocal()
+        {
+            if(File.Exists(this.dataPath))
+            {
+                this.Folders = JsonConvert.DeserializeObject<List<DBFolder>>(File.ReadAllText(this.dataPath));
+            }
         }
 
     }
